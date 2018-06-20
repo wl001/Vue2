@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <!--点击事件   v-on:click='function'  可缩写成@click='function'<br/>-->
+    <!--<input type="button" value="按钮" v-on:click="click">-->
+    <!-- v-on 不能使用箭头函数-->
+    <input type="button" value="按钮" @click="click()">
+    <ul>
+        <li v-for="(item, index) in json" :key="index">
+            {{ item }} {{index}}
+        </li>
+    </ul>
+</div>
+
+</body>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            json:["apple","banana","milk","bitter","orange","cherry"]
+        },
+        methods:{
+            //this指向new Vue本身
+           click:function(){
+               console.log()
+               console.log(this.json);
+               this.json.push("tomato")
+           }
+        }
+    })
+</script>
+</html>

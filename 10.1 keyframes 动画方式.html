@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        p{
+            width:100px;
+            height:100px;
+            background-color: red;
+        }
+        @keyframes bounce-in {
+            0%{
+                transform: scale(0);
+            }
+            50%{
+                transform: scale(0.5);
+            }
+            100%{
+                transform: scale(1);
+            }
+        }
+        .fade-enter-active{
+            transform-origin: left center;
+            animation: bounce-in 1s;
+        }
+
+        .fade-leave-active{
+            transform-origin: left center;
+            animation: bounce-in 1s reverse;
+        }
+    </style>
+    <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <button @click="toggle">切换显示</button>
+    <!-- name ，用于自动生成 CSS 过渡类名 fade-->
+    <transition name="fade">
+        <p class="diva" v-show="show">我爱你</p>
+    </transition>
+</div>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            show:true
+        },
+        methods:{
+            toggle:function(){
+                this.show =! this.show;
+            },
+        }
+    })
+</script>
+</body>
+</html>

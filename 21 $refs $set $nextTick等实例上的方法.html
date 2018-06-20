@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<!--Z- 90键盘码-->
+<div id="box">
+    <p ref="myp">hello</p>
+    <p ref="myp">hello</p>
+    <p ref="aaa" @click="aaa">hello</p>
+    <div ref="warp">
+        <div v-for="a in arr" ref="myDiv">{{a}}</div>
+    </div>
+
+
+</div>
+
+</body>
+<script>
+
+   let vm =  new Vue({
+        a:1,
+        el:'#box',
+        data:{
+            arr:[1,2,3]
+        },
+       methods:{
+           aaa(){
+               this.arr = [1,2,3,4,5]
+           }
+       },
+        // this.$data  vm上的数据
+        // this.$watch 监控
+        // this.$el当前挂载的元素
+        // this.$set 后加的属性实现响应式变化
+        // this.$option 属性
+
+       //  this.$nextTick(()=>{} ) //异步方法 保证dom渲染完成后在获取方法
+       // 如果数据变化后想要获取真实的dom内容需要等页面渲染完毕后在获取 所有的dom操作最好放到 $nextTick中
+
+       //  this.$ref //   如果dom元素不是通过v-for循环出来的只能获取一个 v-for循环出来可以获取多个 等价于 $('#myp')
+        mounted(){
+
+            //console.log(vm) 报错 找不到 not defind
+            setTimeout(function(){
+                console.log(vm)//能找到  但是看着别扭
+            },30)
+            this.$nextTick(()=> console.log('$nextTick',vm))
+            console.log(this.$refs.myp)//多个的话只能取到一个
+            console.log(this.$refs.myDiv) //[div, div, div]
+            this.arr=[1,2,3,4]
+            console.log(this.$refs.warp)//$refs.warp这里是三个数据 不是四个 因为this.arr=[1,2,3,4]是异步的 需要等待获取
+            debugger  //.
+            //想要改变数据马上取到最新的结果一定要 $nextTick
+        }
+    })
+    console.log(vm.$options)//查看所有属性 包括自己写的a属性
+
+
+   //没有el怎么办 手动挂载 $moune('')
+</script>
+</html>

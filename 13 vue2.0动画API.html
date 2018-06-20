@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/animate.css" type="text/css">
+    <script src="js/vue.js"></script>
+    <script src="js/velocity.js"></script>
+    <style>
+
+
+       p{
+            width:100px;
+            height:100px;
+            background-color: red;
+        }
+
+       /*定义进入过渡的开始状态  定义离开过渡生效时的状态*/
+       /*.fade-enter {*/
+           /*opacity: 0*/
+       /*}*/
+       /*.fade-enter-active{*/
+           /*transition:all 0.3s linear;*/
+       /*}*/
+       /*!*离开*!*/
+         /*.fade-leave-active{*/
+             /*transition:all 1s linear;*/
+             /*opacity: 0;*/
+         /*}*/
+    </style>
+</head>
+<body>
+<div id="box">
+    <input type="button" value="按钮" @click="toggle">
+    <!--事件-->
+    <!--@before-enter=''  当动画准备进入的时候还没有进入--->
+    <!--@enter=''  当动画准备进入的过程中 比较重要--->
+    <!--@after-enter=''  当动画进入之后--->
+
+    <!--@before-leave=''  动画离开之前--->
+    <!--@leave=''  当动画准离开过程中--->
+    <!--@after-leave=''  当动画离开后--->
+    <transition name="fade"
+                @before-enter="handleBeforeEnter"
+                @enter="handleEnter"
+                @after-enter="handleAfterEnter"
+                @before-leave="handleBeforeLeave"
+                @leave="handleLeave"
+                @after-leave="handleAfterLeave"
+    >
+        <p  v-show="show" ></p>
+    </transition>
+</div>
+
+</body>
+<script>
+    //bower ->包管理器（偏向前端） npm(偏向后端  @)
+    // npm install bower -g  验证是否安装成功 bower --version
+    //bower install <包名#版本号> 下载包  也可以指定版本号
+    //bower uninstall <包名> 卸载包
+    //bower info <包名>  查看包版本呢信息
+
+
+    var vm = new Vue({
+        el: '#box',
+        data: {
+            // show状态决定方块是显示还是隐藏
+            show: false
+        },
+        methods: {
+            toggle: function () {
+                this.show = !this.show;
+            },
+            handleBeforeEnter: function (el) {
+                el.style.opacity = 0;
+                console.log('方块显示动画即将执行');
+            },
+            handleEnter: function (el, done) {
+                Velocity(el, 'stop');
+                Velocity(el, {
+                    backgroundColor: '#0085eb',
+                    opacity: 1,
+                    translateX: 260,
+                    rotateZ: ['360deg', 0]
+                }, {
+                    duration: 1000,
+                    easing: [ 0.4, 0.01, 0.165, 0.99 ],
+                    complete: done
+                });
+                console.log('方块显示动画执行中...');
+            },
+            handleAfterEnter: function (el) {
+                console.log('方块显示动画结束');
+            },
+            handleBeforeLeave: function (el) {
+                console.log('方块隐藏动画即将执行');
+            },
+            handleLeave: function (el, done) {
+//                正常走完el的函数 也要执行 done()
+                Velocity(el, 'stop');
+                Velocity(el, {
+                    backgroundColor: '#4dd0e1',
+                    opacity: 0,
+                    translateX: 0,
+                    rotateZ: [0, '360deg']
+                }, {
+                    duration: 1000,
+                    easing: [ 0.4, 0.01, 0.165, 0.99 ],
+                    complete: done
+                });
+                console.log('方块隐藏动画执行中...');
+            },
+            handleAfterLeave: function (el) {
+                console.log('方块隐藏动画结束');
+            }
+        }
+    });
+</script>
+</html>

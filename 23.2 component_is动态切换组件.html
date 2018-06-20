@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+    <style>
+        .v-enter,.v-leave-active{
+            opacity: 0;
+        }
+        .v-enter-active,.v-leave-active{
+            transition: opacity 1s;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+
+    <!-- 因为切换组件需要销毁和重建影响性能 加上 v-once 缓存-->
+<!-- out-in现隐藏在显示 -->
+    <transition mode="out-in">
+        <component :is="type"></component>
+    </transition>
+
+    <button @click="click">change</button>
+</div>
+<script>
+    Vue.component('child-one',{
+        template:`<div v-once>child-one</div>`
+    })
+    Vue.component('child-two',{
+        template:`<div v-once>child-two</div>`
+    })
+
+
+    new Vue({
+        el:'#box',
+        data:{
+            type:'child-one'
+        },
+        methods:{
+            click(){
+                this.type = (this.type === 'child-one'?'child-two':'child-one')
+            }
+        }
+
+    })
+</script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/animate.css" type="text/css">
+    <script src="node_modules/babel-core/browser.min.js"></script>
+    <script src="js/vue.js"></script>
+    <style>
+        p{
+            width:100px;
+            height:100px;
+            background-color: red;
+            margin: 0 auto;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <input type="text" v-model="query">
+    <input type="button" value="按钮" @click="toggle">
+    <transition-group mode="out-in" enter-active-class="bounceInUp" leave-active-class="bounceOutDown">
+        <p  v-show="show" class="animated" :key="1"></p>
+        <p  v-show="show" class="animated" :key="2"></p>
+        <!--v-for会复用原有的dom元素 如果加了Key  key不同他就认为是两个人了-->
+        <p v-show="show" class="animated" v-for="(val,index) in newArr" :key="Math.random()">
+            {{val}}
+        </p>
+    </transition-group>
+</div>
+
+</body>
+<script type="text/babel">
+    new Vue({
+        el:'#box',
+        computed:{
+            newArr(){ //过滤 写什么数组里就留下什么 相等的留下
+                return this.arr.filter(item=>item==this.query)
+            }
+        },
+        data:{
+            show:true,
+            arr:[1,2,3,4,5],
+            query:''
+        },
+        methods:{
+            toggle:function(){
+                this.show =! this.show;
+            },
+        }
+
+    })
+</script>
+</html>

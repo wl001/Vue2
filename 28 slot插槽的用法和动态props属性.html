@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="js/bootstrap.min.css">
+    <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <!-- type="warning" 没冒号可以直接props 有冒号会转义   type="1" 实际是Number不是字符串-->
+    <!-- :type="warning" 需要在自定义在data中 都可以 只要不报错 -->
+
+    <!-- sayTitle多个单词就用-线 方法里都是小写 否则功能失效 -->
+    <panel type="warning" @sayTitle="parent">
+        <div slot="title">这是一片vue的使用</div>
+        <div slot="content">
+            <p>{{a}}</p>
+            <p>组件的属性传递</p>
+            <p>slot的用法</p>
+            <p>ref的用法</p>
+            <p>nextTick的用法</p>
+        </div>
+    </panel>
+
+
+</div>
+<template id="panel">
+    <!--<div class="panel"  :class="['panel-'+type]">-->
+    <div class="panel"  :class="[color]">
+        <!--{{type}}-->
+        <div class="panel-heading" ref="head">
+            <slot name="title"></slot>
+        </div>
+        <div class="panel-body">
+            <slot name="content"></slot>
+        </div>
+        <div class="panel-footer">
+            <slot>作者匿名</slot>
+            <button @click="say">点我说标题</button>
+        </div>
+    </div>
+</template>
+<script>
+    let panel = {
+        created(){
+            console.log(this.type)//this.type='warning'  能取到 但是子不能更改父组件传递的属性
+        },
+        computed:{
+            color(){
+                return 'panel-'+this.type
+            }
+        },
+        methods:{
+            say(){
+                this.$emit('saytitle', this.$refs.head.innerText)//触发自己的自定义事件 让父亲的方法执行
+            }
+        },
+        props:{
+            type:{
+                type:[String],
+                default:'default'
+            }
+        },
+        template:'#panel',
+
+    }
+
+    new Vue({
+        el:'#box',
+        methods:{
+            parent(title){
+                alert(title)
+            }
+        },
+        components:{
+            panel
+        },
+
+    })
+</script>
+</body>
+
+</html>

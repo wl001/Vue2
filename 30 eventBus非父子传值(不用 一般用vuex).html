@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="js/bootstrap.min.css">
+    <script src="js/jquery-1.7.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="node_modules/babel-core/browser.min.js"></script>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <!-- axios不依赖vue 也无法use 基于promise-->
+    <style>
+        img{
+            width:70px;
+            height:90px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <child content="Dell"></child>
+    <child content="Lell"></child>
+</div>
+<script src="node_modules/axios/dist/axios.js"></script>
+<script type="text/babel">
+    Vue.prototype.bus = new Vue();
+
+    Vue.component('child',{
+        template:'<div @click="handleClick">{{selfContent}}</div>',
+        props:{
+            content:String
+        },
+        data(){
+            //data需要处理一下 直接this.content会警告
+            return {
+                selfContent:this.content
+            }
+        },
+        methods:{
+            handleClick(){
+                this.bus.$emit('change',this.selfContent)
+            }
+        },
+        mounted(){
+            var _this = this;
+            this.bus.$on('change',function(msg){
+                console.log(msg)
+                _this.selfContent = msg
+            })
+        }
+    })
+
+  //eventBus一般不用  用vuex解决公共函数管理
+    //Bus/总线/发布订阅模式/观察者模式
+    //每个vue的实例上都会有个bus属性 指向同一个实例
+
+    new Vue({
+        el:'#app',
+        data:{
+        },
+        components:{
+
+        },
+        methods:{
+
+        }
+    })
+
+</script>
+</body>
+</html>

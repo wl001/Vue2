@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <loading ref="load"></loading>
+</div>
+</body>
+<script>
+    //父操作子级数据  正常是不可能的事情   用ref
+    let loading = {
+        template:`<div v-show="flag">疯狂加载中。。。</div>`,
+        data(){
+            return{
+                flag:true
+            }
+        },
+        mounted(){
+            console.log(this.$refs.load)
+        },
+        methods:{
+            hide(){
+                this.flag = false
+            }
+        },
+    }
+    new Vue({
+        el:'#app',
+        data:{
+
+        },
+        mounted(){//如果放在组件上 获取的是组件的实例 而不是dom元素
+            console.log(this.$refs.load)//vue组件不是dom
+           // this.$refs.load.hide() //成功隐藏
+            this.$refs.load.$el.style.background = 'red';
+        },
+        components:{
+            loading
+        },
+        methods:{
+
+        }
+    })
+</script>
+</html>

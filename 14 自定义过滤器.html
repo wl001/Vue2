@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="box">
+    {{ a | data  }} <br/>
+    {{ b | toDou(1,2)}}
+    <ul>
+        <li  v-for="value in arr">
+            {{value}}
+        </li>
+    </ul>
+</div>
+
+</body>
+<script>
+    //自定义不满两位加0
+    Vue.filter('toDou',function(input,a,b){
+        //传参
+       // alert(a+','+b);
+       return input<10?'0'+input:''+input;
+    });
+    //自定义时间
+    //(input*1000);将秒转化成时间&*1000
+
+
+    Vue.filter('data',function(input){
+        var oData = new Date(input);
+        var year=oData.getFullYear();
+        var month=oData.getMonth()+1;
+        var day=oData.getDate();
+        var week=oData.getDay();
+        var h=oData.getHours();
+        var mins=oData.getMinutes();
+        var s=oData.getSeconds();
+        if(month<10) month="0" + month;
+        if(day<10) month="0" + day;
+        if(h<10) h="0" + h;
+        if(mins<10) mins="0" + mins;
+        if(s<10) s="0" + s;
+        //return oData.getFullYear()+'-'+(oData.getMonth()+1)+'-'+oData.getDate()+' '+oData.getHours()+':'+oData.getMinutes()+':'+oData.getSeconds();
+        return year+ '-'+  month + '-'+ day +'  ' + h+ ':'+  mins + ':'+ s
+    });
+    new Vue({
+        el:'#box',
+        data:{
+            a:Date.now(),
+            b:9,
+            arr:[1,2,3,4,5,6,7,8,9,10]
+        },
+        methods:{
+            click:function(){
+                alert(1)
+            }
+        },
+    })
+</script>
+</html>

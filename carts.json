@@ -1,0 +1,18 @@
+[
+  {
+    "isSelected": true,
+    "productCover": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2243440351,823542239&fm=27&gp=0.jpg",
+    "productName": "深入浅出nodejs",
+    "productInfo": "颜色：Node.js学习1",
+    "productPrice": 57.8,
+    "productCount": 3
+  },
+  {
+    "isSelected": true,
+    "productCover": "https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2243440351,823542239&fm=27&gp=0.jpg",
+    "productName": "深入浅出nodejs",
+    "productInfo": "颜色：Node.js学习2",
+    "productPrice": 57.8,
+    "productCount": 3
+  }
+]

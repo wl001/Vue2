@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        h2{
+            color:red
+        }
+        [v-cloak]{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="app" v-cloak>
+
+    <!-- v-model 数据双向绑定-->
+    <h2>model 数据双向绑定</h2>
+    {{msg}}<br/>
+    <input type="text" v-model="msg"><br/>
+
+    <!-- checkbox -->
+    <!-- 如果是多个checkbox,要增加value属性 并且数据类型是数组 -->
+    <input type="checkbox" v-model="checked"><br/>
+    爱好:  <input type="checkbox" v-model="checkbox" value="睡觉">睡觉
+    <input type="checkbox" v-model="checkbox" value="篮球">篮球
+    <input type="checkbox" v-model="checkbox" value="爬山">爬山
+    {{checkbox}}<br/>
+    <!-- selected 如果value不写默认是option中的text 请选择要加disabled-->
+    <select v-model="selected">
+        <option value="" disabled>请选择</option>
+        <option value="1">你好</option>
+        <option value="2">我好</option>
+        <option value="3">他好</option>
+    </select>
+    {{selected}}<br/>
+    <!--radio-->
+    <input type="radio" v-model="gender" value="男">男<br/>
+    <input type="radio" v-model="gender" value="女">女<br/>
+    {{gender}}
+    <h2>v-text</h2>
+    <span v-text="msg1"></span><br/>
+    <span v-text="msg2"></span><br/>
+    <h2>v-html 可以转意 html字符串转换成html</h2>
+    <!-- v-html 可以转意 html字符串转换成html-->
+    <span v-html="msg2"></span><br/>
+    <!-- v-once 只绑定一次 当数据再次发生花鸟画也不会导致页面刷新-->
+    <h2>v-once 只绑定一次,数据在变化不会导致视图刷新,写在不想刷新的标签上</h2>
+    <div v-once>
+        <span>v-once 只绑定一次</span><br/>
+        <input type="text" v-model="msg"><br/>
+    </div>
+    <h2>v-clock 解决闪烁问题- [v-clock]要加style样式  ,后期都可以不采用</h2>
+    <h2>v-for 循环(数组,字符串,对象,数字)</h2>
+    <h2>v-bind等价:  动态绑定数据 外部取{{}}  内部取:</h2>
+    <img v-bind:src="url" :width="w" :title="t">
+</div>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+//    v-model 数据绑定(表单元素)忽略掉value,selected,checked,将数据绑定到视图上,视图修改后将影响数据的变化
+   let vm = new Vue({
+        el:'#app',
+        data:{
+            msg:'数据绑定',
+            msg1:'welcome',
+            msg2:"<strong>你好</strong>",
+            checked:true,
+            checkbox:[],
+            selected:'',
+            gender:'',
+            url:'images/1.jpg',
+            w:'200px',
+            t:'图片',
+        }
+    })
+</script>
+</body>
+</html>

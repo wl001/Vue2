@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/animate.css" type="text/css">
+    <script src="js/vue.js"></script>
+    <style>
+        /*p{*/
+            /*width:100px;*/
+            /*height:100px;*/
+            /*background-color: red;*/
+            /*margin: 0 auto;*/
+        /*}*/
+    </style>
+</head>
+<body>
+<div id="box">
+    <input type="button" value="按钮" @click="toggle">
+    <transition
+            appear
+            enter-active-class="animated swing"
+            leave-active-class="animated shake"
+            appear-active-class="animated swing">
+        <p  v-show="show" class="animated" >hellow</p>
+    </transition>
+</div>
+
+</body>
+<script>
+    new Vue({
+        el:'#box',
+        data:{
+            show:true
+        },
+        methods:{
+            toggle:function(){
+                this.show =! this.show;
+            },
+        }
+
+    })
+</script>
+</html>

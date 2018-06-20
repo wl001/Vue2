@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        p{
+            width:100px;
+            height:100px;
+            background-color: red;
+        }
+        /*.fade-enter,.fade-leave-to{*/
+            /*opacity: 0;*/
+        /*}*/
+        /*.fade-enter-active,.fade-leave-active{*/
+            /*transition: opacity 1s;*/
+        /*}*/
+
+    </style>
+    <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <button @click="toggle">切换显示</button>
+   <fade show="show">
+       <p class="diva" v-show="show">我爱你</p>
+   </fade>
+
+
+
+</div>
+<script>
+    Vue.component('fade',{
+        props:['show'],
+        template:`
+                 <transition name="fade">
+                    <slot v-show="show"></slot>
+                 </transition>
+        `
+    })
+    new Vue({
+        el:'#app',
+        data:{
+            show:true
+        },
+        methods:{
+            toggle:function(){
+                this.show =! this.show;
+            },
+        }
+    })
+</script>
+</body>
+</html>

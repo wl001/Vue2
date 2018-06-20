@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script src="node_modules/babel-core/browser.min.js"></script>
+</head>
+<body>
+<div id="box">
+    <input type="button" value="更新数据" @click="update">
+    <input type="button" value="更新数据" @click="delete_">
+    {{msg}}
+</div>
+<script type="text/babel">
+    //生命周期函数就是vue实例在某一个时间点会自动执行的函数
+    //  created  mounted  开发中个用到的最多的
+    var vm=new Vue({
+        //el:'#box',//可以$mount('#box')挂载
+        data:{
+            msg:'well'
+        },
+        methods:{
+            update:function(){
+                this.msg = '生命周期'
+            },
+            delete_(){
+                this.$destroy()
+            }
+        },
+        beforeCreate:function(){ //基本上用不到 因为data没有加载好 调用不到
+            console.log('实例刚刚被创建');
+        },
+        created:function(){//获取ajax 和初始化数据
+            console.log('实例已经创建完成 data');
+        },
+
+        beforeMount:function(){//没什么实际意义
+            console.log('编译之前');
+        },
+        <!--子组件和父组件同时拥有mouted的方法会先走谁 -->
+        <!--需要等子组件挂载完成后再触发父组件的挂载 先走子级 在走父级-->
+        //mounted是异步 取数据打印出是旧的值 只要mouted里边有数据变化的 都要加上
+        mounted:function(){// 真是dom渲染完了 可以操作dom了
+            //只要有mounted 想要获取dom就要加 this.$nextTick(()=>{})
+            this.$nextTick(()=>{//想操作dom就加$nextTick
+                console.log('编译之后  插入到文档中');//此处是异步渲染dom
+            })
+
+        },
+        beforeUpdate:function(){ //一般用不到 watch就可以解决
+            console.log('组件 data更新之前');
+        },
+        updated(){//一般用不到 watch就可以解决
+            console.log('组件 data更新之后');
+        },
+        beforeDestroy:function(){//可以清除定时器或者接触事件绑定
+            console.log('销毁之前');
+        },
+        destroyed:function(){
+            console.log('销毁之后');
+        }
+    }).$mount('#box')
+
+    /*点击页面销毁vue对象*/
+    //    document.onclick=function(){//好使
+    //        vm.$destroy();
+    //    };
+    //       beforeCompile:function(){//1.0废弃
+    //            alert('编译之前');
+    //        },
+    //        compiled:function(){//1.0废弃
+    //            alert('编译之后');
+    //        },
+    //        ready:function(){//1.0废弃
+    //            alert('插入到文档中');
+    //        },
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <!--子组件绑定的click是是自定义事件 不是绑定的click事件  要触发的话-->
+
+    <!--<child @click="handleClick"></child>-->
+    <!--你给一个vue组件绑定事件时候，要加上native！-->
+    <!--忽略1/2   3 有时候的需求就想监听原生的事件在child身上 点击就可以监听到内部的原生事件而不是自定义事件了-->
+    <child @click.native="handleClick"></child>
+</div>
+<script>
+    Vue.component('child',{
+        template:'<div @click="handleClick">Clild</div>',
+        methods:{
+            handleClick(){
+//                //1 点击的时候子组件会监听自身绑定的方法然后向外触发子组件监听的自定义事件
+//                alert('child click')
+//                //2 也可以用$emit触发自定义的方法
+//                this.$emit('click')
+            }
+        }
+    })
+    var vm = new Vue({
+        el:'#root',
+        data:{
+
+        },
+        methods:{
+            handleClick(){
+                alert('click')
+            }
+        }
+    })
+</script>
+</body>
+</html>

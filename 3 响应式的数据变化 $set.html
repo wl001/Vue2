@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    {{a.age}}<br/>
+ {{a.school}}<br/>
+    {{b.data}}<br/>
+    {{arr}}<br/>
+</div>
+
+<script>
+    //vue会循环data中的数据 一次的增加getter setter
+    let vm  = new Vue({
+        el:'#app',
+        data:{
+            a:{school:''},
+            b:{},
+            arr:[1,2,3,4,5]
+        },
+        methods:{
+
+        }
+    })
+    //使用变量的时候一定要初始化data 否则新增加的属性不会导致页面刷新
+    vm.$set(vm.b,'data',2018);//此方法可以给对象添加响应式的数据变化
+    console.log(vm)
+  //替换原对象
+//    vm.a = {age:'27'}
+    vm.arr[0] = 100
+    vm.arr = vm.arr.map(function(item){
+        return item*3
+    })
+</script>
+</body>
+</html>

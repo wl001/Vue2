@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>监控数据的变化</title>
+</head>
+<script type="text/javascript" src="js/vue.js" ></script>
+<script src="node_modules/babel-core/browser.min.js"></script>
+<body>
+<div id="div1">
+    <input type="text" v-model="name">
+    <h2>{{name}}</h2>
+    <hr>
+    <input type="text" v-model="age">
+    <h2>{{age}}</h2>
+    <input type="text" v-model="user.age">
+    <h2>{{user.age}}</h2>
+</div>
+</body>
+<script type="text/babel">
+    let vm = new Vue({
+        el: "#div1",
+        data:{
+            name:'Tom',
+            age:18,
+            user:{
+                id:1,
+                age:20
+            }
+        },
+        watch:{//watch的属性名字和观察的人的名字一样 只有值变化的时候才会触发 支持异步 其他的情况更善于computed
+            //注意：当观察的数据为对象或数组时，curVal和oldVal是相等的，因为这两个形参指向的是同一个数据对象
+            //方式一:监控vue实例的数据
+            age:(newValue,oldValue) => {//默认写成函数就相当于默认写了 handler
+            console.log('name的newValue值为：'+newValue+'，旧值为:'+oldValue);
+        },
+        user:{
+            handler:(newValue,oldValue) => {
+                console.log('age的newValue值为q：'+newValue.age+'，旧值为:'+oldValue.age);
+                //原来的旧值已经看不见了，只能看到新的值
+            },
+            deep: true //深度监视，当对象中的属性发生变化时会被监控
+        }
+    }
+});
+    //方式二：监控vue实例的数据
+    vm.$watch('name',function(newValue,oldValue){
+        console.log('name的newValue值为：'+newValue+'，旧值为:'+oldValue);
+    });
+    document.onclick = function(){
+        vm.name='wanglei'
+    }
+</script>
+</html>

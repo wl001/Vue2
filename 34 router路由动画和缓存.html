@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/animate.css" type="text/css">
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <style>
+        .router-link-active{
+            font-size: 20px;
+            color:red;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <router-link to="/home">主页</router-link>
+    <router-link to="/list">列表</router-link>
+    <!-- mode='out-in' 进入动画的模式  进入动画会有抖动 加定位前面的不考虑会出现双被时间等待-->
+    <!--路由正常切换会销毁 <keep-alive>缓存谁就包在谁的外边-->
+    <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut">
+        <keep-alive>
+            <router-view style="position: absolute;top:50px;left:0"></router-view>
+        </keep-alive>
+    </transition>
+
+</div>
+<script>
+    let home = {
+        template:'<div style="color:#ccc;border:1px solid #2a6496">我是主页</div>'
+    };
+    let list = {
+        template:'<div style="color:green;border:1px solid pink;">我是列表</div>'
+    };
+    let routes = [
+        {path:'/home',component:home},
+        {path:'/list',component:list}
+    ];
+    let router = new VueRouter({
+        routes
+    });
+    //挂载到Vue上
+    new Vue({
+        router,
+        el:'#box'
+    });
+</script>
+</body>
+</html>

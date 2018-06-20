@@ -1,0 +1,53 @@
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+</head>
+<body>
+<p>
+    <from action="" method="post" enctype="multipart/form-data">
+        <label>请选择一个图像文件：</label>
+        <p>
+            <input type="file" id="file_input" />
+        </p>
+        <p>
+            <input type="submit" value="ok">
+        </p>
+    </from>
+
+</p>
+<div id="result"></div>
+</body>
+<script>
+
+    var result = document.getElementById("result");			//获取要展示的元素
+    var input = document.getElementById("file_input");		//获取上传文件的input
+
+
+    if(typeof FileReader === 'undefined') {					//判断浏览器是否支持这个功能
+        result.innerHTML = "抱歉，你的浏览器不支持 FileReader";	//不支持
+        input.setAttribute('disabled', 'disabled');			//如果不支持input不让点击
+    } else {
+        input.addEventListener('change', readFile, false);	//如果支持就绑定change事件  函数名(readFile)
+    }
+
+    function readFile() {									//出发这个函数
+        var file = this.files[0];							//获取上传图片的第一张
+        if(!/image\/\w+/.test(file.type)) {					//判断上传的是否为图片
+            alert("文件必须为图片！");							//如果不是图片就提醒
+            return false;									//并返回,禁止往下走
+        }
+        var reader = new FileReader();						//定义一个变量等于 FileReader
+        reader.readAsDataURL(file);							//用它的属性接着第一张图片的所有属性
+        reader.onload = function(e) {
+
+            result.innerHTML = '<img src="' + this.result + '" alt=""/>'
+            //↑↑↑↑↑↑↑↑↑↑↑   是自带的内置属性
+        }
+    }
+</script>
+
+<html>

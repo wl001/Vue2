@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .x{
+            background-color: blue;
+            border:1px solid red;
+        }
+        .y{
+            font-size: 30px;
+        }
+        .z{
+            color:pink;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="app" >
+    <!-- :绑定的class 和class绑定的不冲突-->
+    <div :class="{z:flag,y:false}">
+        aaaa
+    </div>
+    <div :class="[class1,class2]">
+        aaaa
+    </div>
+</div>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script>
+    // v-bind   缩写 ：
+    // 可以绑定 class style  src等等等等
+    //第一种是对象 第二种是数组 两种书写形式
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            flag:true,
+            class1:'x',
+            class2:'y'
+        }
+    })
+</script>
+</body>
+</html>

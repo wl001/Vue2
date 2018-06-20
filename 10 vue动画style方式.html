@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        p{
+            width:100px;
+            height:100px;
+            background-color: red;
+        }
+        /*fade-enter fade是起的动画名 默认 v-enter*/
+        /* 动画第一帧存在 第二帧就被移除了 */
+        /* 重隐藏状态到显示状态 */
+        .fade-enter{
+            opacity: 0;
+        }
+        /*fade-enter-active重动画第一帧开始到动画结束才被移除 */
+        .fade-enter-active{
+            transition: opacity 1s;
+        }
+
+        /*重显示状态到隐藏状态*/
+        .fade-leave-to{
+            opacity: 0;
+        }
+        .fade-leave-active{
+            transition: opacity 1s;
+        }
+    </style>
+    <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <button @click="toggle">切换显示</button>
+    <!-- name ，用于自动生成 CSS 过渡类名 fade-->
+    <transition name="fade">
+        <p class="diva" v-show="show">我爱你</p>
+    </transition>
+    <div>隐藏到显示的状态</div>
+    <img src="image/animate.png">
+    <div>显示到离开的状态</div>
+    <img src="image/leave.png">
+</div>
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            show:true
+        },
+        methods:{
+            toggle:function(){
+                this.show =! this.show;
+            },
+        }
+    })
+</script>
+</body>
+</html>

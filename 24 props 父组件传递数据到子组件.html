@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="box">
+    父亲￥{{money}}
+    <!--当前组件的属性 = 父级的值   给儿子加了m属性，m属性的值对应的数据是父级的-->
+    <!--:a="1" type是Number  a="1"String -->
+   <child :m="money" ></child>
+</div>
+</body>
+<script>
+  //如果要在一个组件使用另一个组件 先保证使用的组件得是真实存在的，在需要引用这个组件的实例上通过
+  //components上注册这个组件 组件需要在父级的模板中通过标签的形式引入
+  // prop 属性的方式传给子级 只能一级一级的传
+
+    let child = {
+        template:`<div>儿子 {{m}}  {{a}}</div>`,
+        /*对m进行校验*/
+        //props:['m','a'],//数组会失去校验功能   相当于this.m = 100; 会在当前组件声明一个m属性
+        props:{//对象的形式可以进行校验  属性名和data中的名字不能相等 校验时不能阻断代码的指向只是警告而已
+            m:{//校验的属性的类型 如果不带 ：冒号肯定得到的String类型 :a="1" :a="true"
+                type:[String,Boolean,Function,Array,Object,Number],
+                //default:0 //可以给m赋予默认值 如果不传默认会调用default
+                 required:true, //此属性是必须传递不能和default通用 没传的话会警告提醒Missing required prop: "m"
+                validator(val){//第一个参数是当前传递的值 返回true表示通过 false就是不通过(用的不多)
+                    return val>300
+                }
+            },
+            a:{
+                type:Number,
+                default:0 //可以给a赋予默认值 如果不传默认会调用default  不传就是删除 :a=""这样叫传了为空会报错
+            }
+        },
+        data(){
+            return{
+                msg:'数据'
+            }
+        }
+    }
+
+
+   let vm =  new Vue({
+        el:'#box',
+        data:{
+            money:400
+        },
+        methods:{},
+        components:{
+           child //注册子组件
+       }
+    })
+</script>
+</html>

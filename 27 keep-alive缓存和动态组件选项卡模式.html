@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <input type="radio" v-model="radio" value="aaa" >aaa组件
+    <input type="radio" v-model="radio" value="bbb">bbb组件
+
+    <input type="button" value="aaa组件" @click="a='aaa'">
+    <input type="button" value="bbb组件" @click="bbb">
+    <!--<keep-alive> 一般用作缓存 为的是后边的路由做准备 如果缓存了就不会再走mounted beforeDestroy方法了-->
+    <keep-alive>
+        <!--组件名称是定死的 component :is="组件名称"-->
+        <component :is="radio"></component>
+    </keep-alive>
+    <component :is="a"></component>
+
+</div>
+<script>
+    //每次都会先挂在在销毁   希望缓存下来 keep-alive 一般用作缓存
+
+    let aaa = {
+        template:'<h2>我是aaa组件</h2>',
+        mounted(){
+            alert('挂载')
+        },
+        beforeDestroy(){
+            alert('销毁')
+        }
+    }
+    let bbb = {
+        template:'<h2>我是bbb组件</h2>',
+        mounted(){
+            alert('挂载')
+        },
+        beforeDestroy(){
+            alert('销毁')
+        }
+    }
+
+    new Vue({
+        el:'#box',
+        data:{
+            b:'bbb',
+            a:'aaa',
+            radio:'aaa'
+        },
+        methods:{
+            bbb:function(){
+                this.a = 'bbb'
+            }
+        },
+        components:{
+            aaa,bbb
+        },
+    })
+</script>
+</body>
+
+</html>

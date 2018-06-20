@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <style>
+        .router-link-active{
+            font-size: 20px;
+            color:red;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <!--如果使用对象作为to的属性 并且使用了参数 必须给理由起名字 通过名字跳转-->
+    <router-link :to="{name: 'name', params: {c:1,a:2}}">111</router-link>
+    <router-link to="/article/2/b">主页2</router-link>
+    <router-link to="/article/3/c">主页3</router-link>
+    <div>
+        <router-view></router-view>
+    </div>
+</div>
+<script>
+    //组件  article/1
+    let article={
+        template:` <h3>第 {{$route.params.c}} 篇文章</h3> `,
+        watch:{//路径参数发生变化 监控参数的变化发送Ajax请求
+            $route(){
+                alert('ajax请求')
+            }
+        }
+    };
+
+    let routes = [//路径参数表现参数必须要走 但是值是随机的
+        {path:'/article/:c/:a',component:article,name:'name'}
+    ]
+    let router = new VueRouter({
+        routes
+    })
+    //挂载到Vue上
+    new Vue({
+        router,
+        el:'#box'
+    });
+</script>
+</body>
+</html>

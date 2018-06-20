@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../jQuery/jquery-3.0.0.min.js"></script>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <div v-on:click="show2()">
+        <input type="button" value="按钮"@click.stop="show()">
+    </div>
+
+</div>
+<script>
+    var a = new Vue({
+        el:'#box',
+        methods:{
+            show:function(){
+                alert(1)
+            },
+            show2:function(){
+                alert(2)
+            }
+        }
+    })
+</script>
+</body>
+</html>

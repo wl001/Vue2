@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <style>
+        .router-link-active{
+            font-size: 20px;
+            color:red;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <router-link to="/home">主页</router-link>
+    <router-link to="/user">用户</router-link>
+    <div>
+        <router-view></router-view>
+    </div>
+</div>
+<script>
+    //组件
+    var Home={
+        template:`
+            <h3>我是主页</h3>
+        `
+    };
+    var User={
+        template:`
+                <div>
+                    <h3>我是用户信息</h3>
+                    <ul>
+                        <li><router-link to="/user/username">某个用户</router-link></li>
+                    </ul>
+                    <div>
+                        <router-view></router-view>
+                    </div>
+                </div>
+        `
+    };
+    var UserDetail={
+        template:'<div>我是XX用户</div>'
+    };
+    //配置路由
+    var routes = [
+        {path:'/home',component:Home},
+        {
+            path:'/user',
+            component:User,
+            children:[
+                {path:'username',component:UserDetail }
+            ]
+
+        },
+        {path:'*', redirect:'/home'}
+    ];
+ //生成路由实例
+    var router = new VueRouter({
+        routes
+    });
+    //挂载到Vue上
+    new Vue({
+        router,
+        el:'#box'
+    });
+</script>
+</body>
+</html>

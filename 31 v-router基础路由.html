@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <style>
+        /*.router-link-active{*/
+            /*font-size: 20px;*/
+            /*color:red;*/
+        /*}*/
+        .active{
+            font-size: 21px;
+            color:red;
+        }
+    </style>
+    <div id="box">
+        <router-link to="/home" tag="button">主页</router-link>
+        <router-link to="/news">新闻</router-link>
+        <div>
+            <router-view></router-view>
+        </div>
+    </div>
+</head>
+<body>
+<script>
+    //组件
+    var Home={
+        template:'<h3>我是主页 <button @click="toList">去列表</button></h3>',
+        methods:{
+//            toList(){
+//                this.$router.push({//路由的强制跳转
+//                    path: '/news'
+//                } )
+//            }
+            toList(){
+                this.$router.replace({//路由替换 将当前的历史替换掉
+                    path: '/news'
+                } )
+            }
+        }
+    };
+    var News={
+        template:'<h3>我是新闻<button  @click="back">返回</button></h3>',
+        methods:{
+            back(){
+                this.$router.go(-1)
+            }
+        }
+    };
+    //生成路由实例
+
+    //配置路由
+        let routes = [
+            {path:'/home',component:Home},
+            {path:'/news',component:News},
+            {path:'*', redirect:'/home'}
+        ];
+    //生成路由实例
+
+    let router = new VueRouter({ //引入vue-router自带的类
+        //mode:'history',
+        linkActiveClass: 'active',//激活时的样式  更改默认样式的类名 默认叫router-link-active
+        routes
+        //配置路由  //理由的映射表 配置路径和组件
+//        routes : [
+//            {path:'/home',component:Home},
+//            {path:'/news',component:News},
+//            {path:'*', redirect:'/home'}
+//        ]
+    });
+    //挂载到Vue上
+    new Vue({
+        router,
+        el:'#box'
+    });
+</script>
+</body>
+</html>

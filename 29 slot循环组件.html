@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="js/bootstrap.min.css">
+    <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="box">
+<!--:key="index" key是必须的 要不会有警告-->
+    <panel :type="article.type" @sayTitle="parent" v-for="(article,index) in articles" :key="index">
+        <div slot="title"><span v-html="article.title"></span></div>
+        <div slot="content">
+            {{article.content}}
+        </div>
+        <div v-if="article.auth">{{article.auth}}</div>
+    </panel>
+
+
+</div>
+<template id="panel">
+    <!--<div class="panel"  :class="['panel-'+type]">-->
+    <div class="panel"  :class="[color]">
+        <!--{{type}}-->
+        <div class="panel-heading" ref="head">
+            <slot name="title"></slot>
+        </div>
+        <div class="panel-body">
+            <slot name="content"></slot>
+        </div>
+        <div class="panel-footer">
+            <slot>作者匿名</slot>
+            <button @click="say">点我说标题</button>
+        </div>
+    </div>
+</template>
+<script>
+    let panel = {
+        created(){
+            console.log(this.type)//this.type='warning'  能取到 但是子不能更改父组件传递的属性
+        },
+        computed:{
+            color(){
+                return 'panel-'+this.type
+            }
+        },
+        methods:{
+            say(){
+                this.$emit('saytitle', this.$refs.head.innerText)//触发自己的自定义事件 让父亲的方法执行
+            }
+        },
+        props:{
+            type:{
+                type:[String],
+                default:'default'
+            }
+        },
+        template:'#panel',
+
+    }
+
+    new Vue({
+        el:'#box',
+        methods:{
+            parent(title){
+                alert(title)
+            }
+        },
+        data:{
+            articles:[
+                {type:'warning',title:'<h4>vue</h4>',content:'这是vue的文章',auth:'王磊'},
+                {type:'warning',title:'<h4>js</h4>',content:'这是js的文章'}
+            ]
+        },
+        components:{
+            panel
+        },
+
+    })
+</script>
+</body>
+
+</html>
+

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="box">
+   <parent></parent>
+</div>
+</body>
+<script>
+  //如果要在一个组件使用另一个组件 先保证使用的组件得是真实存在的，在需要引用这个组件的实例上通过
+  //components上注册这个组件 组件需要在父级的模板中通过标签的形式引入
+  // prop 属性的方式传给子级 只能一级一级的传
+    let grandson = {
+        template:`<div>孙子</div>`,
+    }
+    let son = {
+        template:`<div>儿子<grandson></grandson></div>`,
+        components:{
+            grandson
+        },
+
+    }
+    let parent = {
+        template:`<div :data="msg">父亲 {{msg}}<son></son></div>`,
+        components:{
+            son
+        },
+        data(){
+            return{
+                msg:'数据'
+            }
+        }
+    }
+
+
+   let vm =  new Vue({
+        el:'#box',
+        data:{
+            money:100
+        },
+        methods:{},
+        components:{
+           parent //注册父组件
+       }
+    })
+</script>
+</html>

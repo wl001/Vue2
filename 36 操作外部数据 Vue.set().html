@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="../assets/js/vue.js"></script>
+    <title>Vue.set 全局操作</title>
+</head>
+<body>
+<h1>Vue.set 全局操作</h1>
+<hr>
+<div id="app">
+    <ul>
+        <li v-for=" aa in arr">{{aa}}</li>
+    </ul>
+
+</div>
+<button onclick="add()">外部添加</button>
+
+<script type="text/javascript">
+    //https://segmentfault.com/q/1010000008472683/a-1020000008737751
+    //https://www.cnblogs.com/zccblog/p/7192420.html
+    //http://blog.csdn.net/denl0918/article/details/54292262
+    var app=new Vue({
+        el:'#app',
+        data:{
+            arr:['aaa','bbb','ccc']
+        }
+    })
+    function add(){
+        console.log("我已经执行了");
+        app.arr[1]='ddd';//不会执行
+        console.log(app.$data)
+        //Vue.set(app.arr,1,'ddd');
+        //app.$set(app.arr,1,'ddd');
+    }
+
+
+</script>
+</body>
+</html>
+</body>
+</html>

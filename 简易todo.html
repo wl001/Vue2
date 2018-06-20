@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="val" @keyup.enter="add">
+    <ul>
+        <li v-for="(data,index) in arr">
+            {{data}}
+            <button @click="del(index)">删除</button>
+        </li>
+    </ul>
+</div>
+
+<script>
+    new Vue({
+        el:'#app',
+        data:{
+            val:'',
+            arr:[322332]
+        },
+        methods:{
+            add(){
+               this.arr.push(this.val);
+                this.val=''
+            },
+            del(i){
+                this.arr.splice(i,1)
+               // this.arr = this.arr.filter((item,index)=>index!==i)
+            }
+        }
+    })
+</script>
+</body>
+</html>

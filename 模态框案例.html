@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+    <style>
+        .mask{
+            width:100%;height:100%;position: fixed;top:0;left:0;background: black;
+            opacity:0.4;
+        }
+        .dialog{
+            width:400px;height:250px;background:#fff;position: relative;top:50%;left:50%;
+            transform: translate3d(-50%,-50%,0);
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+
+    <button @click="flag=true">弹框</button>
+    <!--组件调用 show的值传递到组件内部props
+     @closeModal是关闭$emit 子级的属性 父级的方法-->
+    <modal :show="flag" @close="alert"></modal>
+
+</div>
+
+<!--这个要放在div外部  这是组件  v-show="show"接收外部数据判断是否显示 -->
+<template id="dialog" >
+    <div class="mask" v-show="show">
+        <div class="dialog">
+            <button @click="shutdown">关闭</button>
+        </div>
+    </div>
+</template>
+</body>
+<script>
+
+    //子组件 一个组件就是一个对象  往实例上写会比较乱
+    let modal = {
+        props:{//接收父组件的属性
+            show:Boolean
+        },
+        template:'#dialog',
+        methods:{
+            shutdown(){
+                this.$emit('close',false)
+            }
+        }
+    }
+
+    //父组件
+    let vm =  new Vue({
+        el:'#box',
+        data:{
+            flag:false
+        },
+        methods:{
+            alert(val){
+                console.log(val)
+                this.flag =val
+            }
+        },
+        components:{
+            modal //注册父组件
+        }
+    })
+
+
+</script>
+</html>

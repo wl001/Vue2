@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="box">
+    父亲￥{{money}}
+    <!-- @child-msg="things()" 儿子的绑定的时间  things是父级的方法 -->
+    <!--相当于 child.on('child-msg',things) -->
+    <child :m="money" @child-msg="things"></child>
+</div>
+</body>
+<script>
+    //$emit 父亲绑定一些事件 然后儿子触发这个事件将参数传递过去  单向数据流 父亲数据刷新 儿子就涮新 儿子不能直接改父亲的
+    // 要改就让父级去改 然后儿子去更新
+    let child = {
+        template:`<div>儿子 {{m}} <button @click="getMoney()">更改价格</button></div>`,
+        methods:{
+            getMoney(){
+                this.$emit('child-msg',800)//触发自己的自定义事件 让父亲的方法执行
+            }
+        },
+        props:{
+            m:{
+                type:[String,Boolean,Function,Array,Object,Number]
+            }
+        }
+    }
+
+
+    let vm =  new Vue({
+        el:'#box',
+        data:{
+            money:400
+        },
+        methods:{
+            things(val){
+                console.log('儿子触发$emit父亲方法 想要钱',val)
+                this.money= val;//父亲接受儿子的数据更新自己的数据
+            }
+        },
+        components:{
+            child //注册子组件
+        }
+    })
+</script>
+</html>

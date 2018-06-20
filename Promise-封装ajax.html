@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="js/bootstrap.min.css">
+    <script src="js/jquery-1.7.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/vue.js"></script>
+    <!-- axios不依赖vue 也无法use 基于promise-->
+    <script src="node_modules/axios/dist/axios.js"></script>
+    <script src="node_modules/babel-core/browser.min.js"></script>
+    <script src="Promise-ajax.js"></script>
+</head>
+<body>
+<div id="app">
+
+</div>
+<script type="text/babel">
+    let vm = new Vue({
+        el:'#app',
+        data:{
+//    {
+//        id:'',//唯一标识
+//                isSelected:true,//选中
+//            productCover:'',//图片
+//            productName:'深入浅出nodejs',//商品名字
+//            productInfo:'颜色：Node.js学习',//详情
+//            productPrice:57.8,//单价
+//            productCount:3,//数量
+//    }
+            products:[]
+        },
+        created(){//钩子函数 数据初始化后被调用 this指向vm实例
+            ajax({url:'carts.json'}).then((data)=>{
+                console.log(data)
+            },(err)=>{
+                console.log(err)
+            })
+        },
+        methods:{
+
+        }
+    })
+</script>
+</body>
+</html>

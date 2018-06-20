@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <!--<button @click="a=false">消失</button>-->
+    <!--<button @click="a=true">显示</button>-->
+    <input id="aaa" type="button" value="隐藏" @click="show()">
+    <div v-show="a" style="width:100px;height:100px;background-color: red"></div>
+
+    <!--必须连着写 中间不能隔着div或者其他的 会失效报错-->
+    <!-- template标签是vue提供给我们没有任何意义的标签来包裹元素的 只有v-if使用-->
+    <template v-if="true">
+        <div>我很帅</div>
+        <div>我很帅</div>
+        <div>我很帅</div>
+        <div>我很帅</div>
+    </template>
+    <!--<p>我丑</p>-->
+    <div v-else>我非常帅</div>
+
+    <!-- v-if 在切换DOM时相同的结构会被复用 如果不需要复用 则加上key='1'-->
+    <template v-if="showLogin">
+        <label>注册</label>
+        <input type="text" name="a" key='1'>
+    </template>
+    <template v-else>
+        <label>登陆</label>
+        <input type="text" name="b" key='2'>
+    </template>
+    <button @click="login">切换登陆注册</button>
+</div>
+<script>
+
+    //如果频繁的切换dom 用v-show好一些
+    //v-if可以和v-else-if,v-else连写
+    //v-if操作的是Dom会不停的渲染页面  v-show操作的是样式
+    // 如果v-if是false的时候 dom不会被渲染 v-show上来会渲染只是单纯的切换
+    //当数据一开始就确定下来使用v-if  循环之类的
+    new Vue({
+        el:'#box',
+        data:{
+            a:true,
+            showLogin:true
+        },
+        methods:{
+            show:function(){
+                var a = document.getElementById('aaa');
+                if(a.value == '隐藏'){
+                    this.a = false;
+                    a.value = '显示';
+                } else if(a.value == '显示'){
+                    a.value = '隐藏';
+                    this.a = true   ;
+                }
+            },
+            login(){
+                this.showLogin =! this.showLogin
+            }
+        }
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="vue/js/vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <div @click="show2()">
+        <input type="button" value="按钮" @click="show($event)">
+    </div>
+</div>
+
+</body>
+<script>
+    new Vue({
+        el:'#box',
+        data:{
+
+        },
+        methods:{
+            show:function(ev){
+                alert(1);
+                ev.stopPropagation()
+            },
+            show2:function(){
+                alert(2)
+            }
+        }
+    })
+</script>
+</html>

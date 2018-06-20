@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="js/bootstrap.min.css">
+    <script src="js/jquery-1.7.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="node_modules/babel-core/browser.min.js"></script>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <!-- axios不依赖vue 也无法use 基于promise-->
+    <style>
+        img{
+            width:70px;
+            height:90px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="container">
+        <div class="row">
+            <table class="table table-hover table-bordered">
+                <caption class="h3" >购物车</caption>
+                <tr >
+                    <!--click时checkbox的状态还没有改变 所以拿到的总是相反的-->
+                    <td>全选 <input  v-model="checkAll" type="checkbox"></td>
+                    <td>商品</td>
+                    <td>单价</td>
+                    <td>数量</td>
+                    <td>小计</td>
+                    <td>操作</td>
+                </tr>
+                <tr v-for="(product,index) in products">
+                    <td>
+                        <input type="checkbox" v-model="product.isSelected">
+                    </td>
+                    <td>
+                        <img :src="product.productCover" :title="product.productName">
+                        {{product.productInfo}}
+                    </td>
+                    <td>
+                        {{product.productPrice}}
+                    </td>
+                    <td>
+                        <input type="number" min="0" v-model="product.productCount">
+                    </td>
+                    <td>{{product.productPrice*product.productCount | toFixed(1) }}</td>
+                    <td><button @click="del(product)" class="btn btn-danger">删除</button></td>
+                </tr>
+                <tr>
+                    <!-- 数据一边画就会调用此函数 不会缓存上一次的结果 性能不好 computed可以搞定-->
+                    <td colspan="6" >总价格:{{ sum | toFixed(1) }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+<script src="node_modules/axios/dist/axios.js"></script>
+<script type="text/babel">
+//    computed 计算属性 不是方法  不支持异步  watch帮你解决
+// 方法不会有缓存会一直更新对性能不好 computed会根据依赖（归vue管理的数据 可以响应式变化的）的属性进行缓存 不变化的时候不会再次更新
+//
+//不能只写set  可以只写get  一般情况下通过js赋值影响其他人或者表单元素设置的时候会调用set方法
+    new Vue({
+        el:'#app',
+        //当全选赋值时 要影响其他人的变化 当页面刷新时，获取全选值，
+        // 是根据checkbox 计算出来的结果给全选复制
+        computed:{//计算属性 Vue实例上
+            checkAll:{ //计算属性  不是函数
+                get(){//this指向实例 当products值一变化就重算 不变化会缓存 获取值
+                    // v-model或获取checkAll的值 所以会调用get方法防返回值赋予checkAll  是否为true
+                    return this.products.every(p=>p.isSelected)
+                },
+                //设置值的
+                set(val){//val 是checkAll赋予值得时候传递过来的
+                    this.products.forEach(p =>p.isSelected = val)//相当于changeOne方法
+                }
+            /*跟上边的实例比较 去掉的change全选  和 changeOne 的方法*/
+            },
+            sum:{//sum结果会被缓存 如果以来的数据没有变化就不会重新执行
+                get(){//必须有return
+                    return this.products.reduce((prev,next)=>{
+                        if(!next.isSelected){//checkbox当前没被选中，就不加这一项
+                            return prev;
+                        }
+                        return  prev+next.productPrice*next.productCount
+                    } ,0)
+                }
+            }
+            //如果计算属性写成函数 默认调用的是get方法
+        },
+        data:{
+            products:[],
+            //checkAll:false  //是都全选
+        },
+        created(){//钩子函数 数据初始化后被调用 this指向vm实例/
+            this.getData();
+        },
+        methods:{
+            getData(){
+                axios.get('carts.json').then((res)=>{ //回掉函数的this指向的都是window  要使用箭头函数
+                    this.products = res.data
+                    console.log(this.products)
+                },(err)=>{
+                    console.log(err)
+                })
+            },
+            del(i){// i是当前点击的这一项 [xxx,ooo,iii]   iii =iii 取反 不等于 干掉
+                //this.products.splice(i,1) //filter性能会好一些
+                this.products = this.products.filter(item=>item!==i)
+            }
+
+        }
+    })
+    //保留两位小数
+    Vue.filter('toFixed',function(input,param1,b){
+        return '￥'+ input.toFixed(param1)
+    })
+</script>
+</body>
+</html>

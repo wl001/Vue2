@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-resource.js"></script>
+</head>
+<body>
+<div id="box">
+    <input type="button" value="get" @click="get()">
+    <input type="button" value="post" @click="post()">
+    <input type="button" value="jsonp" @click="jsonp_360()">
+    <input type="button" value="jsonp" @click="jsonp_baidu()">
+</div>
+
+</body>
+<script>
+    new Vue({
+        el:'#box',
+        methods:{
+            get:function(){
+                this.$http.get('ajax.txt').then(function(data){
+                    console.log(data)
+                },function(){
+                    console.log('数据请求错误')
+                })
+            },
+            post:function(){
+                this.$http.post('ajax_post.php',{
+                    word:'a'
+                },{
+                    emulateJSON:true
+                }).then(function(data){
+                    console.log(data.data)
+                },function(){
+                    console.log('数据请求错误')
+                })
+            },
+            jsonp_360:function(){
+                this.$http.jsonp('https://sug.so.360.cn/suggest?encodein=utf-8&encodeout=utf-8',{
+                    word:'a'
+                }).then(function(data){
+                    console.log(data)
+                },function(){
+                    console.log('数据请求错误')
+                })
+            },
+            jsonp_baidu:function(){
+
+                this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{
+                    wd:'a'
+                },{
+                    jsonp:'cb'//callback名字
+                }).then(function(data){
+                    console.log(data.data.s)
+                },function(){
+                    console.log('数据请求错误')
+                })
+            }
+        }
+    })
+</script>
+</html>
+https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=a&cb=show

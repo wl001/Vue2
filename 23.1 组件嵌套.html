@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <!--<aaa></aaa>-->
+   <template id="aaa">
+       <h2>我是aaa组件</h2>
+       <template id="bbb">
+           <h2>我是bbb组件</h2>
+           {{a}}
+       </template>
+   </template>
+
+</div>
+<script>
+    new Vue({
+        el:'#box',
+        data:{
+            a:'aaa'
+        },
+        methods:{
+
+        },
+        components:{//组件
+            'aaa':{//aaa组件
+                template:'#aaa',
+                //template:' <h2>我是aaa组件</h2><bbb></bbb>',
+                components:{
+                        template:'#bbb',
+                        //template:' <h2>我是bbb组件</h2>',
+                }
+            }
+        }
+    })
+</script>
+</body>
+
+</html>

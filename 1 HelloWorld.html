@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<div id="app">
+    <!--表达式 可以赋值 取值 三元运算-->
+    <!--{{msg}}-->
+    {{msg}}
+    <br/>
+    {{msg == 'Hello World'?true:false}}
+</div>
+
+<body>
+<script>
+    let vm = new Vue({
+        el:'#app',//告诉vue作用在哪个范围内 querySelector
+        data:{
+            msg:'Hello World'
+        },
+        methods:{
+
+        }
+    }) //Object.defineProperty 定义属性
+    vm.msg = '你好 王磊'
+</script>
+</body>
+</html>

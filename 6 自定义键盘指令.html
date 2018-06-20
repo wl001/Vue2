@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<!--Z- 90键盘码-->
+<div id="box">
+    <!--@keydown.enter   @keydown.17-->
+    <input type="text" @keydown.space="click">
+</div>
+
+</body>
+<script>
+    document.onkeydown = function(ev){
+        console.log(ev.keyCode)
+    };
+
+    //Vue.directive('on').keyCodes.ctrl = 17;//vue1写法
+    //vue2写法
+    Vue.config.keyCodes.space = 32;
+     new Vue({
+         el:'#box',
+         methods:{
+             click:function(){
+                 alert(1)
+             }
+         }
+     })
+</script>
+</html>

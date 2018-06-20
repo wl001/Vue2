@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <my-aaa></my-aaa>
+</div>
+<script>
+    //一般写插件的时候用全局组件多一些
+    //组件名不要大写 多个单词用- 只支持首字母大写
+    // 组件名字要一样
+    Vue.component('my-aaa',{
+        data(){//组件中的数据必须是函数形式 返回一个实例返回给组件使用
+            return {
+                aaa:'xxxx'
+            }
+        },
+        methods:{
+            clcik:function(){
+                alert(1)
+            }
+        },
+        template:'<strong  @click="clcik">我是组件{{aaa}}</strong> '
+    });
+
+    new Vue({
+        el:'#box',
+        data:{
+            meg:'1111'
+        },
+        methods:{}
+    })
+</script>
+</body>
+</html>

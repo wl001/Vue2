@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <p> <input type="button" value="按钮" @click="show($event,12)"></p>
+
+</div>
+</body>
+<script>
+//    事件:
+//            v-on:click/mouseover......
+//
+//            简写的:
+//    @click=""		推荐
+//
+//    事件对象:
+//            @click="show($event)"
+//    事件冒泡:
+//            阻止冒泡:
+//                    a). ev.cancelBubble=true;
+//    b). @click.stop	推荐
+//    默认行为(默认事件):
+//    阻止默认行为:
+//            a). ev.preventDefault();
+//    b). @contextmenu.prevent	推荐
+//    键盘:
+//            @keydown	$event	ev.keyCode
+//    @keyup
+//
+//    常用键:
+//            回车
+//    a). @keyup.13
+//    b). @keyup.enter
+//    上、下、左、右
+//    @keyup/keydown.left
+//    @keyup/keydown.right
+//    @keyup/keydown.up
+//    @keyup/keydown.down
+
+
+//  只绑定一次时间  @click.once = 'fn()'
+//  绑定事件on移除off
+//  判断事件源 @click.self
+    new Vue({
+        el:'#box',
+        data:{
+
+        },
+        methods:{
+            show:function(ev,b){
+                console.log(ev.currentTarget);
+                console.log(ev.clientX);
+                console.log(ev.target);//判断事件源绑定事件
+                console.log(b)
+            }
+        }
+    })
+</script>
+</html>

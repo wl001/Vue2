@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="js/bootstrap.min.css">
+    <script src="js/jquery-1.7.2.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="node_modules/babel-core/browser.min.js"></script>
+    <script src="node_modules/vue/dist/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <script src="node_modules/axios/dist/axios.js"></script>
+    <script src="node_modules/babel-core/browser.min.js" ></script>
+    <style>
+        .del{
+            text-decoration: line-through;color:#ccc;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">
+                    ToDoList
+                </a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="panel panel-warning">
+                    <div class="panel-heading text-danger h4">
+                        亲{{count}}你有件事情要完成
+                        <input v-model="title"   @keyup.enter="add" type="text" class="form-control" style="margin-top: 8px">
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <!--当点击li的时候我可以知道点击的是哪一个以及数据，如果点击的todo和循环的某一个相等的
+                              时候 应该显示输入框  过滤对比todo的值是否相等-->
+                            <!--v-for="(todo,index) in todo 之前循环 现在根据下边的导航重新计算数据-->
+                            <li @dblclick="remember(todo)" class="list-group-item" v-for="(todo,index) in filterTodos">
+
+                                <div :class="{del:todo.isSelected}" v-show="cur!=todo">
+                                    <input v-model="todo.isSelected" type="checkbox" style="margin-right: 5px">
+                                    {{todo.title}}
+                                    <button @click="del(todo)" class="pull-right btn btn-danger btn-xs">&bigotimes;</button>
+                                </div>
+                                <input v-focus="cur==todo"   @keyup.enter="cancel" @blur="cancel"  v-show="cur==todo" type="text" v-model="todo.title" >
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="panel-footer">
+                        <ul class="nav nav-pills">
+                            <li role="presentation" :class="{active:hash==='all'}">
+                                <a href="#/all" >全部任务</a>
+                            </li>
+                            <li role="presentation" :class="{active:hash==='finish'}">
+                                <a href="#/finish" >已完成</a>
+                            </li>
+                            <li role="presentation" :class="{active:hash==='unfinish'}">
+                                <a href="#/unfinish" >未完成</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="tudo.js" ></script>
+
+</body>
+</html>

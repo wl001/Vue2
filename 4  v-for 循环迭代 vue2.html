@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+<div id="box">
+    <!--遍历二级数组-->
+    <ul>
+        <li v-for="(fruit,index) in fruits">
+            {{index+1}}.{{fruit.name}}
+            <ul>
+                <li v-for="(c,index_) in fruit.color">
+                    {{c}}.{{index_+1}}
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <!--遍历 json -->
+    <ul>
+        <li v-for="(item, key) in json">
+            {{item}} {{key}}
+        </li>
+    </ul>
+    <!--遍历 arr -->
+    <ul>
+        <li v-for="(item, index) in arr">
+        {{index+1}}  {{item}}
+        </li>
+    </ul>
+</div>
+
+</body>
+<script>
+    new Vue({
+        el:'#box',
+        data:{
+            arr:['wanglei','xinya'],
+            json:{
+                a:'apple',
+                b:'banana',
+                c:'cell'
+            },
+            fruits:[
+                {name:'香蕉',color:['green','yellow']},
+                {name:'苹果',color:['red','green','yellow']},
+                {name:'西瓜',color:['pink']},
+            ]
+        }
+    });
+
+</script>
+</html>

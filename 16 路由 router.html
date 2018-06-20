@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-router.js"></script>
+    <style>
+        .router-link-active{
+            font-size: 20px;
+            color:red;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <router-link to="/home">主页</router-link>
+    <router-link to="/news">新闻</router-link>
+    <div>
+        <router-view></router-view>
+    </div>
+</div>
+<script>
+    //实现单页应用 通过hash记录跳转的路径  可以产生历史管理
+    //浏览器自带的历史管理history (history.pushState('','','/d') )可能会导致404
+    //开发的时候用hash的方式 上线的时候会使用history的方式a
+    //组件
+    var Home={
+        template:'<h3>我是主页</h3>'
+    };
+    var News={
+        template:'<h3>我是新闻</h3>'
+    };
+
+    //配置路由
+    //    var routes = [
+    //        {path:'/home',component:Home},
+    //        {path:'/news',component:News},
+    //        {path:'*', redirect:'/home'}
+    //    ];
+    //生成路由实例
+
+    var router = new VueRouter({
+//        routes
+        //配置路由
+        routes : [
+            {path:'/home',component:Home},
+            {path:'/news',component:News},
+            {path:'*', redirect:'/home'}
+        ]
+    });
+    //挂载到Vue上
+    new Vue({
+        router,
+        el:'#box'
+    });
+</script>
+</body>
+</html>
